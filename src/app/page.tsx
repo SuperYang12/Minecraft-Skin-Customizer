@@ -89,8 +89,76 @@ export default function SkinDesign() {
               </div>
             </div>
           </div>
+
+          {/* Cosmetic List */}
+          <div className='xl:w-3/5 bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-gray-700/20'>
+            <div className='flex border-b border-gray-700/30 mb-6'>
+              <button className='px-4 py-2 font-medium text-emerald-400 relative'>
+                Cosmetics
+                <div className='absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400'></div>
+              </button>
+            </div>
+
+            {/* Cosmetics List */}
+            <div className='overflow-y-auto pr-2 max-h-[500px] scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800/30'>
+              <div className='mb-6'>
+                <h3 className='font-medium text-emerald-400 flex items-center mb-3 px-2'>
+                  <FiUser className='mr-2' />
+                  Head Cosmetics
+                </h3>
+                <div className='space-y-2'>
+                  {['Hat 1', 'Hat 2', 'Hat 3', 'Hat 4', 'Hat 5', 'Hat 6', 'Hat 7', 'Hat 8'].map((item) => (
+                    <div key={item} className='flex items-center p-3 rounded-lg bg-gray-700/30 hover:bg-gray-600/50 border border-gray-600/20 transition-all cursor-pointer'>
+                      <div className='w-10 h-10 bg-gray-600/30 rounded-md flex items-center justify-center mr-3'>
+                        <FiUser className='text-gray-400' />
+                      </div>
+                      <span className='flex-grow text-sm'>{item}</span>
+                      <div className='w-5 h-5 rounded-full broder border-emerald-400 flex items-center justify-center'>
+                        <FiCheck className='text-emerald-400' />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className='mb-6'>
+                <h3 className='font-medium text-emerald-400 flex items-center mb-3 px-2'>
+                  <FiGrid className='mr-2' />
+                  Outfits
+                </h3>
+                <div className='space-y-2'>
+                  {['Outfit 1', 'Outfit 2', 'Outfit 3', 'Outfit 4', 'Outfit 5', 'Outfit 6', 'Outfit 7', 'Outfit 8'].map((item) => (
+                    <div key={item} className='flex items-center p-3 rounded-lg bg-gray-700/30 hover:bg-gray-600:50 border border-gray-600/20 transition-all cursor-pointer'>
+                      <div className='w-10 h-10 bg-gray-600/30 rounded-md flex items-center justify-center mr-3'>
+                        <FiGrid className='text-gray-400' />
+                      </div>
+                      <span className='flex-grow text-sm'>{item}</span>
+                      <div className='w-5 h-5 rounded-full broder border-emerald-400 flex items-center justify-center'>
+                        <FiCheck className='text-emerald-400' />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+           <div className="mt-6 pt-6 border-t border-gray-700/30 flex justify-between">
+              <button className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center" disabled>
+                <FiTrash2 className="mr-2" /> Reset
+              </button>
+              <div className="flex space-x-4">
+                <button className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center" disabled>
+                  <FiSave className="mr-2" /> Save Schematic
+                </button>
+                <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 flex items-center" disabled>
+                  <FiDownload className="mr-2" /> Download Skin
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>
+    
   )
 }
