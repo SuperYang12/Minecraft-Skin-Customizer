@@ -2,9 +2,11 @@
   "name": "minecraft-skin-customizer",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://superyang12.github.io/Minecraft-Skin-Customizer",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "next dev",
+    "build": "next build && next export",
+    "deploy": "gh-pages -d out",
     "start": "next start",
     "lint": "next lint"
   },
@@ -22,8 +24,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-modal": "^3.16.3",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
+    "gh-pages": "^6.3.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

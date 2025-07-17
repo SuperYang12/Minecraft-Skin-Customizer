@@ -1,8 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'export',
+  basePath: '/Minecraft-Skin-Customizer',
+  trailingSlash: true
 };
 
 export default nextConfig;
-// 

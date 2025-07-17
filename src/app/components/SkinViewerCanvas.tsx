@@ -5,13 +5,15 @@ import { SkinViewer, IdleAnimation } from 'skinview3d';
 
 interface Props {
   skinUrl: string;
-  cosmeticUrls?: string[]; 
+  cosmeticUrls?: string[];
   onViewerReady?: (viewer: SkinViewer) => void;
 }
 
 export default function SkinViewerCanvas({ skinUrl, cosmeticUrls = [], onViewerReady }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<SkinViewer | null>(null);
+
+  const cosmeticKey = cosmeticUrls.join(',');
 
   useEffect(() => {
     const container = containerRef.current;
@@ -48,7 +50,7 @@ export default function SkinViewerCanvas({ skinUrl, cosmeticUrls = [], onViewerR
       window.removeEventListener('resize', resize);
       viewerRef.current?.dispose();
     };
-  }, [skinUrl, cosmeticUrls.join(',')]); 
+  }, [skinUrl, cosmeticKey, onViewerReady]); 
 
   return <div ref={containerRef} className="w-full h-full relative" />;
 }
@@ -85,4 +87,3 @@ function loadImage(src: string): Promise<HTMLImageElement> {
     img.src = src;
   });
 }
-

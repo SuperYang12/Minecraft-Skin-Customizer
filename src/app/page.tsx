@@ -1,12 +1,14 @@
 'use client';
 import {
   FiUpload, FiDownload, FiGrid, FiUser,
-  FiSearch, FiCheck, FiTrash2, FiSave
+  FiCheck, FiTrash2
 } from 'react-icons/fi';
 import SkinViewerCanvas from './components/SkinViewerCanvas';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Modal from 'react-modal';
 import { SkinViewer } from 'skinview3d';
+
+type ViewDirection = 'Front' | 'Behind' | 'Left' | 'Right';
 
 export default function SkinDesign() {
   const [skinUrl, setSkinUrl] = useState<string>("https://i.imgur.com/4MOqhGZ.png");
@@ -34,7 +36,7 @@ export default function SkinDesign() {
     );
   };
 
-  const setCamera = (direction: 'Front' | 'Behind' | 'Left' | 'Right') => {
+  const setCamera = (direction: ViewDirection) => {
     const viewer = viewerRef.current;
     if (!viewer) return;
     switch (direction) {
@@ -44,6 +46,10 @@ export default function SkinDesign() {
       case 'Right': viewer.camera.rotation.y = -Math.PI / 2; break;
     }
   };
+
+  const handleViewerReady = useCallback((v: SkinViewer) => {
+    viewerRef.current = v;
+  }, []);
 
   const generateFinalSkinBlob = async (): Promise<Blob | null> => {
     const base = await loadImage(skinUrl);
@@ -79,7 +85,6 @@ export default function SkinDesign() {
               SkinForge
             </h1>
           </div>
-          
           <div className='flex space-x-3'>
             <button onClick={() => setIsModalOpen(true)}
               className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 flex items-center'>
@@ -108,9 +113,9 @@ export default function SkinDesign() {
             <div className='flex justify-between items-center mb-6'>
               <h2 className='text-xl font-semibold text-emerald-400'>Preview</h2>
               <div className='flex space-x-2'>
-                {['Front', 'Behind', 'Left', 'Right'].map((view) => (
+                {(['Front', 'Behind', 'Left', 'Right'] as ViewDirection[]).map((view) => (
                   <button key={view}
-                    onClick={() => setCamera(view as any)}
+                    onClick={() => setCamera(view)}
                     className="px-3 py-1 text-xs rounded-lg bg-gray-700/50 border border-gray-600/30 text-gray-300">
                     {view}
                   </button>
@@ -122,10 +127,11 @@ export default function SkinDesign() {
                 <SkinViewerCanvas
                   skinUrl={skinUrl}
                   cosmeticUrls={activeCosmetics}
-                  onViewerReady={(v) => (viewerRef.current = v)}
+                  onViewerReady={handleViewerReady}
                 />
               </div>
             </div>
+
             {/* Active Cosmetics */}
             <div className='mt-6 bg-gray-800/50 rounded-xl p-4 border border-gray-700/30'>
               <h3 className='font-medium mb-3 text-emerald-400'>Active Cosmetics</h3>
@@ -163,6 +169,7 @@ export default function SkinDesign() {
                 <div className='absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 to-teal-400'></div>
               </button>
             </div>
+
             <div className='overflow-y-auto pr-2 max-h-[500px]'>
               {/* Head Cosmetics */}
               <div className='mb-6'>
@@ -171,33 +178,6 @@ export default function SkinDesign() {
                 </h3>
                 <div className='space-y-2'>
                   {cosmeticsList.filter(c => c.type === 'head').map(item => (
-                    <div key={item.id}
-                      onClick={() => toggleCosmetic(item.url)}
-                      className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${activeCosmetics.includes(item.url)
-                          ? 'bg-emerald-500/10 border-emerald-500'
-                          : 'bg-gray-700/30 border-gray-600/20 hover:bg-gray-600/50'
-                        }`}>
-                      <div className='w-10 h-10 bg-gray-600/30 rounded-md flex items-center justify-center mr-3'>
-                        {item.icon}
-                      </div>
-                      <span className='flex-grow text-sm'>{item.name}</span>
-                      {activeCosmetics.includes(item.url) && (
-                        <div className='w-5 h-5 rounded-full border border-emerald-400 flex items-center justify-center'>
-                          <FiCheck className='text-emerald-400' />
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Outfit Cosmetics */}
-              <div className='mb-6'>
-                <h3 className='font-medium text-emerald-400 flex items-center mb-3 px-2'>
-                  <FiGrid className='mr-2' /> Outfits
-                </h3>
-                <div className='space-y-2'>
-                  {cosmeticsList.filter(c => c.type === 'outfit').map(item => (
                     <div key={item.id}
                       onClick={() => toggleCosmetic(item.url)}
                       className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${activeCosmetics.includes(item.url)
@@ -227,30 +207,28 @@ export default function SkinDesign() {
               }} className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center cursor-pointer" disabled>
                 <FiTrash2 className="mr-2" /> Reset
               </button>
-              <div className="flex space-x-4">
 
-                <button
-                  onClick={async () => {
-                    const blob = await generateFinalSkinBlob();
-                    if (!blob) return alert("Failed to generate skin.");
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "custom_skin.png";
-                    a.click();
-                    URL.revokeObjectURL(url);
-                  }}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg flex items-center cursor-pointer"
-                >
-                  <FiDownload className="mr-2" /> Download Skin
-                </button>
-              </div>
+              <button
+                onClick={async () => {
+                  const blob = await generateFinalSkinBlob();
+                  if (!blob) return alert("Failed to generate skin.");
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "custom_skin.png";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+                className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg flex items-center cursor-pointer"
+              >
+                <FiDownload className="mr-2" /> Download Skin
+              </button>
             </div>
           </div>
         </div>
       </main>
 
-      {/* NameMC Modal */}
+      {/* Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
