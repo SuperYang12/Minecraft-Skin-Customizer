@@ -1,12 +1,22 @@
 'use client';
 import { FiUpload, FiDownload, FiGrid, FiLayers, FiUser, FiSearch, FiCheck, FiPlus, FiTrash2, FiSave } from 'react-icons/fi'
 import SkinViewerCanvas from './components/SkinViewerCanvas'
-import { useState } from 'react';
+import { useState, useEffect, use } from 'react';
+import Modal from 'react-modal'
 
 
 
 export default function SkinDesign() {
   const [skinUrl, setSkinUrl] = useState<string>("https://i.imgur.com/4MOqhGZ.png")
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      Modal.setAppElement('body');
+    }
+  }, []);
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [username, setUsername] = useState("");
 
   return (
 
@@ -30,7 +40,7 @@ export default function SkinDesign() {
           </div>
 
           <div className='flex space-x-3'>
-            <button className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 hover:bg-gray-600/60 transition-all flex items-center text-grat-300'>
+            <button className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 hover:bg-gray-600/60 transition-all flex items-center text-grat-300 cursor-pointer' onClick={() => setIsModalOpen(true)}>
               <FiUser className='mr-2' /> NameMc
             </button>
             <div className='relative'>
@@ -180,7 +190,46 @@ export default function SkinDesign() {
           </div>
         </div>
       </main>
-    </div>
 
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        className="bg-gray-800 p-8 rounded-2xl max-2-md mx-auto mt-32 shadow-2xl border border-gray-700 text-gray-200"
+        overlayClassName="fixed inset-0 bg-black/70 flex items-center justify-center"
+      >
+        <h2 className='text-xl font-bold mb-4 text-emerald-400'>Load skin from NameMC</h2>
+        <input type="text" placeholder='Enter Minecraft username'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className='w-full px-4 py-2 mb-4 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring focus:ring-emerald-500' />
+        <div className='flex justify-end gap-3'>
+          <button onClick={() => setIsModalOpen(false)} className='px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition'>Cancel</button>
+          <button
+            onClick={async () => {
+              if (!username) return;
+
+              const skinFromNameMC = `https://mc-heads.net/skin/${username}`;
+              try {
+                const test = await fetch(skinFromNameMC, { method: 'HEAD' });
+                if (test.ok) {
+                  setSkinUrl(skinFromNameMC);
+                  setIsModalOpen(false);
+                } else {
+                  alert("User not found or no skin.");
+                }
+              } catch (err) {
+                console.error(err);
+                alert("Failed to fetch skin.");
+              }
+            }}
+            className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-black font-medium transition"
+          >
+            Load Skin
+          </button>
+
+        </div>
+
+      </Modal>
+    </div>
   )
 }
