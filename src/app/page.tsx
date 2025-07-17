@@ -1,7 +1,15 @@
+'use client';
 import { FiUpload, FiDownload, FiGrid, FiLayers, FiUser, FiSearch, FiCheck, FiPlus, FiTrash2, FiSave } from 'react-icons/fi'
+import SkinViewerCanvas from './components/SkinViewerCanvas'
+import { useState } from 'react';
+
+
 
 export default function SkinDesign() {
+  const [skinUrl, setSkinUrl] = useState<string>("https://i.imgur.com/4MOqhGZ.png")
+
   return (
+
     <div className='min-h-screen bg-gradient-to-br from-grey-900 via-gray-800 to-gray-900 text-gray-100'>
       <header className='sticky top-0 z-50 backdrop-blur-lg bg-gray-800/70 border-b border-gray-700/30 py-4 px-6 shadow-xl'>
         <div className='container mx-auto flex flex-col md:flex-row justify-between items-center gap-4'>
@@ -25,9 +33,18 @@ export default function SkinDesign() {
             <button className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 hover:bg-gray-600/60 transition-all flex items-center text-grat-300'>
               <FiUser className='mr-2' /> NameMc
             </button>
-            <button className='px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all flex items-center'>
-              <FiUpload className='mr-2' /> Upload
-            </button>
+            <label htmlFor="skin-upload">
+              <button className='px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all flex items-center cursor-pointer'>
+                <FiUpload className='mr-2' /> Upload
+              </button>
+            </label>
+            <input id="skin-upload" type="file" accept='image/png' className='hidden' onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const url = URL.createObjectURL(file);
+                setSkinUrl(url);
+              }
+            }} />
           </div>
 
         </div>
@@ -53,7 +70,10 @@ export default function SkinDesign() {
             <div className="relative h-96 bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-xl border-2 border-dashed border-gray-700/40 flex items-center justify-center mb-6 overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className='w-64 h-64 bg-gray-700/20 rounded-lg border border-gray-600/30 flex items-center justify-center'>
-                  <span className='text-gray-500'>Preview Skin</span>
+                  <div className="absolute inset-0">
+                    <SkinViewerCanvas skinUrl={skinUrl} />
+                  </div>
+
                 </div>
               </div>
 
@@ -142,7 +162,7 @@ export default function SkinDesign() {
               </div>
             </div>
 
-           <div className="mt-6 pt-6 border-t border-gray-700/30 flex justify-between">
+            <div className="mt-6 pt-6 border-t border-gray-700/30 flex justify-between">
               <button className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center" disabled>
                 <FiTrash2 className="mr-2" /> Reset
               </button>
@@ -159,6 +179,6 @@ export default function SkinDesign() {
         </div>
       </main>
     </div>
-    
+
   )
 }
