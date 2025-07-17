@@ -24,7 +24,6 @@ export default function SkinDesign() {
   const cosmeticsList = [
     { id: 'hat-arab', name: 'Arab Hat', icon: <FiUser />, url: '/cosmetics/arab.png', type: 'head' },
     { id: 'santa-hat', name: 'Santa Hat', icon: <FiUser />, url: '/cosmetics/santa_hat.png', type: 'head' },
-    { id: 'outfit-desert', name: 'Desert Robe', icon: <FiGrid />, url: '/cosmetics/desert_robe.png', type: 'outfit' },
   ];
 
   const toggleCosmetic = (url: string) => {
@@ -80,14 +79,7 @@ export default function SkinDesign() {
               SkinForge
             </h1>
           </div>
-          <div className='relative w-full md:w-96'>
-            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400'>
-              <FiSearch />
-            </div>
-            <input type="text" placeholder='Search cosmetics'
-              className='pl-10 pr-4 py-2.5 w-full bg-gray-700/40 border border-gray-600/30 rounded-xl'
-              disabled />
-          </div>
+          
           <div className='flex space-x-3'>
             <button onClick={() => setIsModalOpen(true)}
               className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 flex items-center'>
@@ -181,11 +173,10 @@ export default function SkinDesign() {
                   {cosmeticsList.filter(c => c.type === 'head').map(item => (
                     <div key={item.id}
                       onClick={() => toggleCosmetic(item.url)}
-                      className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${
-                        activeCosmetics.includes(item.url)
+                      className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${activeCosmetics.includes(item.url)
                           ? 'bg-emerald-500/10 border-emerald-500'
                           : 'bg-gray-700/30 border-gray-600/20 hover:bg-gray-600/50'
-                      }`}>
+                        }`}>
                       <div className='w-10 h-10 bg-gray-600/30 rounded-md flex items-center justify-center mr-3'>
                         {item.icon}
                       </div>
@@ -209,11 +200,10 @@ export default function SkinDesign() {
                   {cosmeticsList.filter(c => c.type === 'outfit').map(item => (
                     <div key={item.id}
                       onClick={() => toggleCosmetic(item.url)}
-                      className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${
-                        activeCosmetics.includes(item.url)
+                      className={`flex items-center p-3 rounded-lg border transition-all cursor-pointer ${activeCosmetics.includes(item.url)
                           ? 'bg-emerald-500/10 border-emerald-500'
                           : 'bg-gray-700/30 border-gray-600/20 hover:bg-gray-600/50'
-                      }`}>
+                        }`}>
                       <div className='w-10 h-10 bg-gray-600/30 rounded-md flex items-center justify-center mr-3'>
                         {item.icon}
                       </div>
@@ -231,13 +221,14 @@ export default function SkinDesign() {
 
             {/* Buttons */}
             <div className="mt-6 pt-6 border-t border-gray-700/30 flex justify-between">
-              <button className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center" disabled>
+              <button onClick={() => {
+                setSkinUrl("https://i.imgur.com/4MOqhGZ.png");
+                setActiveCosmetics([]);
+              }} className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center cursor-pointer" disabled>
                 <FiTrash2 className="mr-2" /> Reset
               </button>
               <div className="flex space-x-4">
-                <button className="px-6 py-3 rounded-xl bg-gray-700/50 border border-gray-600/30 text-gray-300 flex items-center" disabled>
-                  <FiSave className="mr-2" /> Save Schematic
-                </button>
+
                 <button
                   onClick={async () => {
                     const blob = await generateFinalSkinBlob();
@@ -249,7 +240,7 @@ export default function SkinDesign() {
                     a.click();
                     URL.revokeObjectURL(url);
                   }}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg flex items-center"
+                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg flex items-center cursor-pointer"
                 >
                   <FiDownload className="mr-2" /> Download Skin
                 </button>
