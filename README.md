@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛠️ SkinForge – Minecraft Skin Customizer
 
-## Getting Started
+**SkinForge** is a modern web-based tool that lets you upload, preview, and customize Minecraft skins with additional cosmetic layers like hats, outfits, and other accessories — without modifying the base skin file or core gameplay.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- 🧍‍♂️ **Real-time 3D skin preview** powered by [skinview3d](https://github.com/bs-community/skinview3d)
+- 🎨 **Upload your own skin** via PNG or load directly from a NameMC username
+- 🎩 **Cosmetic layers**: Add or remove visual accessories like hats and outfits
+- 📷 **Camera control**: Switch between front, back, left, and right perspectives
+- 💾 **Export** final skin as a `.png` image with cosmetics layered on top
+
+---
+
+## 🧰 Built With
+
+- **React + Next.js** – frontend framework (App Router with client-side rendering)
+- **Tailwind CSS** – utility-first CSS framework for fast UI styling
+- **React Icons** – icon set for modern and accessible UI components
+- **skinview3d** – live 3D renderer for Minecraft skins in the browser
+- **React Modal** – lightweight modal windows for UX interactions
+
+---
+
+## 📦 Dependencies
+
+Here are the main dependencies used in the project:
+
+```json
+"dependencies": {
+  "next": "^14.x",
+  "react": "^18.x",
+  "react-dom": "^18.x",
+  "react-icons": "^4.x",
+  "skinview3d": "^1.x",
+  "react-modal": "^3.x",
+  "tailwindcss": "^3.x",
+  "autoprefixer": "^10.x",
+  "postcss": "^8.x"
+}
+```
+
+You can install them automatically using:
+
+```bash
+npm install
+```
+
+---
+
+## 🧪 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/SuperYang12/Minecraft-Skin-Customizer.git
+cd Minecraft-Skin-Customizer
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4. Open the app in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+/components
+  └── SkinViewerCanvas.tsx      # skinview3d wrapper component
+/pages
+  └── index.tsx                 # Main page (SkinForge UI)
+/public/cosmetics               # Cosmetic assets (e.g. hats)
+/styles
+  └── globals.css               # Tailwind + base styles
+/tailwind.config.js             # Tailwind configuration
+/postcss.config.js              # PostCSS setup
+/README.md                      # You are here!
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the **MIT License**.  
+See the [LICENSE](./LICENSE) file for full details.
