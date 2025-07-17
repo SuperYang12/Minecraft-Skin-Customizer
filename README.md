@@ -100,3 +100,9 @@ http://localhost:3000
 
 This project is licensed under the **MIT License**.  
 See the [LICENSE](./LICENSE) file for full details.
+
+---
+
+## 🌞 Summer of Making
+
+This project was built as part of [**Summer of Making**](https://summer.hackclub.com/projects/6799), a community-driven initiative by Hack Club to encourage young builders to create amazing things.
