@@ -33,18 +33,20 @@ export default function SkinDesign() {
             <button className='px-5 py-2.5 rounded-xl bg-gray-700/50 border border-gray-600/30 hover:bg-gray-600/60 transition-all flex items-center text-grat-300'>
               <FiUser className='mr-2' /> NameMc
             </button>
-            <label htmlFor="skin-upload">
-              <button className='px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all flex items-center cursor-pointer'>
+            <div className='relative'>
+              <input id="skin-upload" type="file" accept='image/png' className='absolute inset-0 opacity-0 w-full h-full cursor-pointer' onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const url = URL.createObjectURL(file);
+                  setSkinUrl(url);
+                }
+              }} />
+              <button
+                className='px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all flex items-center pointer-events-none'
+              >
                 <FiUpload className='mr-2' /> Upload
               </button>
-            </label>
-            <input id="skin-upload" type="file" accept='image/png' className='hidden' onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                const url = URL.createObjectURL(file);
-                setSkinUrl(url);
-              }
-            }} />
+            </div>
           </div>
 
         </div>
