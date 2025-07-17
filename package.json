@@ -5,7 +5,7 @@
   "homepage": "https://superyang12.github.io/Minecraft-Skin-Customizer",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "deploy": "gh-pages -d out",
     "start": "next start",
     "lint": "next lint"
