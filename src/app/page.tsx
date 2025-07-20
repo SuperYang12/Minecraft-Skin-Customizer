@@ -73,7 +73,7 @@ export default function SkinDesign() {
     });
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-grey-900 via-gray-800 to-gray-900 text-gray-100'>
+    <div className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100'>
       {/* Header */}
       <header className='sticky top-0 z-50 backdrop-blur-lg bg-gray-800/70 border-b border-gray-700/30 py-4 px-6 shadow-xl'>
         <div className='container mx-auto flex flex-col md:flex-row justify-between items-center gap-4'>
